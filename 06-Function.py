@@ -1,6 +1,7 @@
-def calc(x,y):
-    z = x + y
-    print("result is",z)
+def calc(x,y,opr):
+    expression = x + opr + y
+    result = eval(expression)
+    print("Result is",result)
 
 print("""
 1. Add
@@ -10,5 +11,14 @@ print("""
 """)
 
 ch = input("Enter your choice : ")
-num_1 = int(input("Enter first number : "))
-num_2 = int(input("Enter second number : "))
+num_1 = input("Enter first number : ")
+num_2 = input("Enter second number : ")
+
+operations = {
+    "1" : "+",
+    "2" : "-",
+    "3" : "/",
+    "4" : "*"
+}
+opr = operations.get(ch)
+calc(num_1, num_2, opr)
