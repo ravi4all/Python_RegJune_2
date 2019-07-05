@@ -1,0 +1,12 @@
+File Handling
+
+Text
+Binary
+
+1. Open
+2. Read/Write
+3. Close
+
+modes
+text	- r/w/a
+bin	- rb/wb/ab

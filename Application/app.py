@@ -1,3 +1,5 @@
+import readWrite
+
 users = []
 posts = []
 
@@ -28,6 +30,7 @@ def deleteProfile(email):
 def login():
     email = input("Enter email : ")
     pwd = input("Enter password : ")
+    # users = readWrite.readData()
     for i in range(len(users)):
         if users[i]['email'] == email and pwd == users[i]['pwd']:
             print("Login Success")
@@ -38,6 +41,7 @@ def login():
 
 def register():
     name = input("Enter your name : ")
+    # users = readWrite.readData()
     flag = True
     while flag:
         email = input("Enter your email : ")
@@ -56,6 +60,7 @@ def register():
 
     user = {"name":name,"email":email,"pwd":pwd,"city":city}
     users.append(user)
+    readWrite.writeData(user)
     for item in users:
         print(item)
 
