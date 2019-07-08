@@ -1,0 +1,17 @@
+Exception Handling
+
+try:
+- logic must be placed inside try block
+except:
+- we will except the error and perform any operation based on that error
+else:
+- either except will execute or else will
+finally:
+it will always execute
+
+Pre defined
+- BaseException
+
+
+User defined
+- raise
