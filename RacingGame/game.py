@@ -13,28 +13,44 @@ img = pygame.Surface((50,50))
 img.fill(red)
 rect = img.get_rect()
 rect.center = width/2, height/2
+rect.y = height - 50
 moveX = 0
-FPS = 500
+
+# track = pygame.image.load("track_1.jpg")
+# track = pygame.transform.rotate(track,90)
+# track_rect.center = width/2, height/2
+
+trackList = []
+for i in range(100):
+    track = pygame.image.load("track_1.jpg")
+    track = pygame.transform.rotate(track, 90)
+    track_rect = track.get_rect()
+    trackHeight = track.get_height()
+    track_rect.center = width/2, height/2
+    track_rect.y = -(trackHeight * i)
+    trackList.append(track_rect)
+
+FPS = 50
 clock = pygame.time.Clock()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                FPS += 1
-                moveX += 1
-                print("Space Pressed...")
-                # moveX = 1
-        elif event.type == pygame.KEYUP:
-            moveX = 0
+
+    keypressed = pygame.key.get_pressed()
+    if keypressed[pygame.K_SPACE]:
+        moveX += 1
+    else: moveX = 0
 
     screen.fill(white)
-    # pygame.draw.rect(screen, red, rect)
+    for i in range(len(trackList)):
+        screen.blit(track, (trackList[i].x, trackList[i].y))
     screen.blit(img, (rect.x, rect.y))
-    rect.x += moveX
-    # print(rect.x,moveX)
+
+    if moveX > 1:
+        for i in range(len(trackList)):
+            trackList[i].y += moveX
 
     pygame.display.update()
     clock.tick(FPS)
