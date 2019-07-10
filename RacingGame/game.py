@@ -14,12 +14,13 @@ def speed(s):
     text = font.render("Speed : {}".format(s), True, red)
     screen.blit(text, (10, 10))
 
+
 def game():
-    img = pygame.Surface((50,50))
-    img.fill(red)
-    rect = img.get_rect()
+    myCar = pygame.image.load('car_2.png')
+    # img.fill(red)
+    rect = myCar.get_rect()
     rect.center = width/2, height/2
-    rect.y = height - 50
+    rect.y = height - myCar.get_height()
     moveX = 0
 
     # track = pygame.image.load("track_1.jpg")
@@ -36,6 +37,8 @@ def game():
         track_rect.y = -(trackHeight * i)
         trackList.append(track_rect)
 
+    car_1 = pygame.image.load('car_1.png')
+    car_2 = pygame.image.load('car_3.png')
     FPS = 50
     clock = pygame.time.Clock()
     while True:
@@ -47,12 +50,19 @@ def game():
         keypressed = pygame.key.get_pressed()
         if keypressed[pygame.K_SPACE]:
             moveX += 1
-        else: moveX = 0
+        else:moveX -= 1
+
+        if moveX < 0:
+            moveX = 0
+        elif moveX > 200:
+            moveX = 200
 
         screen.fill(white)
         for i in range(len(trackList)):
             screen.blit(track, (trackList[i].x, trackList[i].y))
-        screen.blit(img, (rect.x, rect.y))
+        screen.blit(myCar, (rect.x, rect.y))
+        screen.blit(car_1, (rect.x - 100, rect.y))
+        screen.blit(car_2, (rect.x + 100, rect.y))
 
         if moveX > 1:
             for i in range(len(trackList)):
