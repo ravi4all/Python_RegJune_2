@@ -1,4 +1,6 @@
 import pygame
+import time
+import random
 pygame.init()
 
 width = 1000
@@ -14,6 +16,12 @@ def speed(s):
     text = font.render("Speed : {}".format(s), True, red)
     screen.blit(text, (10, 10))
 
+def count(x):
+    font = pygame.font.SysFont(None, 140)
+    text = font.render("{}".format(x), True, white)
+    screen.blit(text, (450, 100))
+    # print(c[x])
+    time.sleep(1)
 
 def game():
     myCar = pygame.image.load('car_2.png')
@@ -26,6 +34,10 @@ def game():
     # track = pygame.image.load("track_1.jpg")
     # track = pygame.transform.rotate(track,90)
     # track_rect.center = width/2, height/2
+    x = 0
+    c = ['3', '2', '1', 'GO','']
+
+    startGame = False
 
     trackList = []
     for i in range(100):
@@ -39,6 +51,14 @@ def game():
 
     car_1 = pygame.image.load('car_1.png')
     car_2 = pygame.image.load('car_3.png')
+
+    car_1_Rect = car_1.get_rect()
+    car_1_Rect.x, car_1_Rect.y = rect.x - 100, rect.y
+    car1_moveY = random.randint(1,5)
+
+    car_2_Rect = car_2.get_rect()
+    car_2_Rect.x, car_2_Rect.y = rect.x + 100, rect.y
+    car2_moveY = random.randint(1,5)
     FPS = 50
     clock = pygame.time.Clock()
     while True:
@@ -50,7 +70,15 @@ def game():
         keypressed = pygame.key.get_pressed()
         if keypressed[pygame.K_SPACE]:
             moveX += 1
+            rect.y -= 8
         else:moveX -= 1
+
+        if rect.y > height/2:
+            rect.y = height/2
+        elif car_1_Rect.y > height/2:
+            car_1_Rect.y = height/2
+        elif car_2_Rect.y > height/2:
+            car_2_Rect.y = height/2
 
         if moveX < 0:
             moveX = 0
@@ -61,14 +89,25 @@ def game():
         for i in range(len(trackList)):
             screen.blit(track, (trackList[i].x, trackList[i].y))
         screen.blit(myCar, (rect.x, rect.y))
-        screen.blit(car_1, (rect.x - 100, rect.y))
-        screen.blit(car_2, (rect.x + 100, rect.y))
+        screen.blit(car_1, (car_1_Rect.x, car_1_Rect.y))
+        screen.blit(car_2, (car_2_Rect.x, car_2_Rect.y))
 
-        if moveX > 1:
-            for i in range(len(trackList)):
-                trackList[i].y += moveX
+        if startGame:
+            car_1_Rect.y -= car1_moveY
+            car_2_Rect.y -= car2_moveY
+            if moveX > 1:
+                for i in range(len(trackList)):
+                    trackList[i].y += moveX
+            speed(moveX)
 
-        speed(moveX)
+        elif not startGame:
+            if x <= 4:
+                count(c[x])
+                print(c[x])
+                x += 1
+            if x == 4:
+                startGame = True
+
         pygame.display.update()
         clock.tick(FPS)
 
